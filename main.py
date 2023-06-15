@@ -1,7 +1,28 @@
 import renderer as gui
 import particles as prt
 import pygame
+import sys
 
+def set_solid_behavior(pool):
+    # Set particle behavior to solid/vibrating
+    for p in pool.particles:
+        p.xv = 0
+        p.yv = 0
+
+# need revision
+def set_gas_behavior(pool):
+    # Set particle behavior to gas/floating
+    for p in pool.particles:
+        pool.random(60, 1, 15)
+		pool2.random(60, 20, 15)
+
+# need revision
+def set_liquid_behavior(pool):
+    # Set particle behavior to liquid
+    for p in pool.particles:
+    	# can make function in particles.py
+        p.xv = 0
+        p.yv = 0.5  # Example: Assign a constant downward velocity
 
 # Creates first pool object
 pool = prt.pool(e = .99, g = .01)
@@ -55,6 +76,8 @@ while True:
 	for p in pools:
 		p.update()
 		print("pool temp: ", p.getmediantemp())   # Gets median 'temperature' (Velocity) of particles in pool
+		set_solid_behavior(p)
 		gui.drawpool(p)
+		
 
 	gui.update() # Updates screen
