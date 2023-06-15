@@ -4,25 +4,24 @@ import pygame
 import sys
 
 def set_solid_behavior(pool):
-    # Set particle behavior to solid/vibrating
-    for p in pool.particles:
-        p.xv = 0
-        p.yv = 0
+	# Set particle behavior to solid/vibrating
+	for p in pool.particles:
+		p.xv = 0
+		p.yv = 0
 
 # need revision
 def set_gas_behavior(pool):
-    # Set particle behavior to gas/floating
-    for p in pool.particles:
-        pool.random(60, 1, 15)
-		pool2.random(60, 20, 15)
-
+	# Set particle behavior to gas/floating
+	for p in pool.particles:
+		pass
+	
 # need revision
 def set_liquid_behavior(pool):
-    # Set particle behavior to liquid
-    for p in pool.particles:
-    	# can make function in particles.py
-        p.xv = 0
-        p.yv = 0.5  # Example: Assign a constant downward velocity
+	# Set particle behavior to liquid
+	for p in pool.particles:
+		# can make function in particles.py
+		p.xv = 0
+		p.yv = -1  # Example: Assign a constant downward velocity
 
 # Creates first pool object
 pool = prt.pool(e = .99, g = .01)
