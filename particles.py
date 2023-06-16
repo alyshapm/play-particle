@@ -1,6 +1,7 @@
 import math
 from random import randint, uniform
 from numpy import sign
+import components as cmp
 
 
 class particle:
@@ -113,7 +114,11 @@ class pool:
 			self.add(p)
 
 	def add(self, body):
-		if issubclass(type(body), particle):
+		if type(body) == cmp.heatplate:
+			self.obstacles.append(body)
+			if body.updatable == True:
+				self.updatables.append(body)
+		elif issubclass(type(body), particle):
 			self.particles.append(body)
 			self.updatables.append(body)
 
@@ -158,6 +163,7 @@ class pool:
 		for _ in range(n):
 			p = particle((randint(rect[0][0], rect[1][0]), randint(rect[1][1], rect[0][1])), (uniform(-v, v), uniform(-v, v)), r)
 			self.add(p)
+
 
 
 def mergepools(*pools, e = False, g = False):
