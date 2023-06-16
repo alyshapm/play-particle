@@ -15,8 +15,6 @@ slider = cmp.slider(500,0,(0,100),200, 20)
 # Adding heatplate to pool
 pool.add(cmp.heatplate(slider,'x',  0, -500, 600))
 
-
-
 click = False
 i = 0
 while True:
