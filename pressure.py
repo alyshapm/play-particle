@@ -1,20 +1,28 @@
 import renderer as gui
 import particles as prt
-import components as cmp
 import pygame
 import sys
 
-
 # Creates first pool object
-pool = prt.pool(e = .9, g = .05)
-pool.setdomain(((-300, 500), (300, -500)))
-pool.random(60, 1, 15, rect = ((-200, 300), (200, -500)))
+pool = prt.pool(e = 1, g = .05)
+pool.setdomain(((-200, 500), (200, -500)))
 
-# Creating slider
-slider = cmp.slider(500,0,(0,100),200, 20)
+mouse_pos = {'x':0, 'y':0}
+draggable = prt.grabparticle(mouse_pos, 30)
+pool.add(draggable)
 
-# Adding heatplate to pool
-pool.add(cmp.heatplate(slider,'x',  0, -500, 600))
+def store_mouse(pos):
+	mouse_pos['x'] = pos[0]
+	mouse_pos['y'] = pos[1]
+
+piston = prt.piston(0, 500, 500, 400, 100)
+pool.add(piston)
+pool.random(100, 1, 15, rect = ((-200, 300), (200, -500)))
+
+def merge():
+	pool.setdomain(((-800,400), (800,-400)))
+	piston.changelen(1600)
+	pool.e = .99
 
 click = False
 i = 0
@@ -30,6 +38,8 @@ while True:
 			if event.key == pygame.K_ESCAPE:
 				pygame.quit()
 				sys.exit()
+			if event.key == pygame.K_SPACE:
+				merge()
 		elif event.type == pygame.MOUSEBUTTONDOWN:
 			if event.button == 1:
 				click = True
@@ -37,10 +47,12 @@ while True:
 			if event.button == 1:
 				click = False
 
+	store_mouse(gui.truemouse(pygame.mouse.get_pos()))
+
+	if click:
+		piston.y = mouse_pos['y']
+	
 	pool.update()
 	gui.drawpool(pool)
-
-	slider.update(gui.truemouse(pygame.mouse.get_pos()), click)
-	gui.drawwidgets(slider)
 
 	gui.update() # Updates screen

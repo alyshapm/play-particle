@@ -52,11 +52,23 @@ class grabparticle(particle):
 		self.color = (100,100,255)
 		self.speed = 1
 
+	def confine(self, piston):
+		if self.x < piston.x0:
+			self.x = piston.x0
+		elif self.x > piston.x1:
+			self.x = piston.x1
+		if self.y < piston.y0:
+			self.y = piston.y0
+		elif self.y > piston.y1:
+			self.y = piston.y1
+
 	def update(self, G):
 		self.xv = self.mouse['x'] - self.x
 		self.yv = -self.mouse['y'] - self.y
 		self.x += self.xv
 		self.y += self.yv
+		if isinstance(self.container, piston):
+			self.confine(self.container)
 
 def clamp(n, min, max):
 	if min < n < max:
@@ -80,7 +92,7 @@ class obstacle:
 	def collide(self, p, E):
 		pass
 
-class _container(obstacle):
+class container(obstacle):
 	def __init__(self, rect):
 		self.rect = rect
 		self.x0 = rect[0][0]
@@ -102,19 +114,71 @@ class _container(obstacle):
 			p.x += p.r - p.x + self.x0
 			p.xv = -p.xv * E
 
+
+class piston(obstacle):
+	updatable = True
+	def __init__(self, x, y, l, m, tag = None, axis = 1):
+		self.tag = tag
+		self.v = 0
+		self.m = m
+		if axis == 1 or axis == 'x':
+			self.axis = 1
+			self.y = y
+			self.x_ = x
+			self.x0 = x - l/2
+			self.x1 = x + l/2
+		elif axis == 0 or axis == 'y':
+			self.axis = 0
+			self.x = x
+			self.y_ = y
+			self.y0 = y - l/2
+			self.y1 = y + l/2
+		else:
+			print("invalid axis")
+
+	def update(self, g):
+		if self.axis == 1:
+			self.v -= g
+			self.y += self.v
+		else:
+			self.y += self.v
+
+	def changelen(self, l):
+		if self.axis == 1:
+			self.x0 = self.x_ - l/2
+			self.x1 = self.x_ + l/2
+		else:
+			self.y0 = self.y_ - l/2
+			self.y1 = self.y_ + l/2
+
+	def collide(self, p, E):
+		if self.axis == 1:
+			intersect = abs(p.y - self.y) - p.r
+			if self.x0 < p.x < self.x1 and intersect < 0:
+				p.y += intersect
+				dv = (self.v - p.yv) *2 
+				self.v -= dv / (1 + self.m)
+				p.yv += (dv * self.m) / (1 + self.m)
+
+		else:
+			intersect = abs(p.x - self.x) - p.r
+			if self.y0 < p.y < self.y1 and intersect < 0:
+				p.x += intersect * sign(p.xv)
+				p.xv = - p.xv * E * self.e
+
 class pool:
 
 	def __init__(self, e = 1, g = 0, *particles):
 		self.particles = []
 		self.obstacles = []
 		self.updatables = []
-		self.cont = _container(((-10000,10000), (10000,-10000)))
+		self.cont = container(((-10000,10000), (10000,-10000)))
 		self.e, self.g = e, g
 		for p in particles:
 			self.add(p)
 
 	def add(self, body):
-		if type(body) == cmp.heatplate:
+		if type(body) == cmp.heatplate or type(body) == piston:
 			self.obstacles.append(body)
 			if body.updatable == True:
 				self.updatables.append(body)
@@ -140,7 +204,18 @@ class pool:
 			self.cont.collide(p, e)
 
 	def setdomain(self, rect):
-		self.cont = _container(rect)
+		self.cont = container(rect)
+	
+	def pressure(self):
+		total_speed = 0
+		for p in self.particles:
+			total_speed += p.speed
+		try:
+			average_speed = total_speed / len(self.particles)
+			return average_speed ** 2
+		except ZeroDivisionError:
+			print("Pool is empty, pressure cannot be calculated.")
+			return 0
 
 	def getmediantemp(self):
 		t = 0
@@ -163,8 +238,6 @@ class pool:
 		for _ in range(n):
 			p = particle((randint(rect[0][0], rect[1][0]), randint(rect[1][1], rect[0][1])), (uniform(-v, v), uniform(-v, v)), r)
 			self.add(p)
-
-
 
 def mergepools(*pools, e = False, g = False):
 	if not e:

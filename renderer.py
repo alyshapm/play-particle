@@ -32,7 +32,7 @@ def drawpool(pool):
         pygame.draw.circle(schermo, p.color, (int(p.x) + OFFW, -int(p.y) + OFFH), int(p.r))
 
     for b in pool.obstacles:
-        if type(b) == cmp.heatplate:
+        if type(b) == cmp.heatplate or type(b) == prt.piston:
             if b.axis == 1:
                 pygame.draw.line(schermo, b.color, (int(b.x0) + OFFW, -int(b.y) + OFFH), (int(b.x1) + OFFW, -int(b.y) + OFFH), 15)
             elif b.axis == 0:
