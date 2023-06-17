@@ -8,8 +8,8 @@
 Play Particle demonstrates an interactive 2D particle simulation using the Pygame library based on the kinetic-molecular theory. The particles can move and interact with each other, exhibiting behaviors such as bouncing off boundaries and colliding with one another. The user can observe and interact with the simulation by moving the draggable particle and witnessing the resulting effects on the system.
 
 ### Contributors
-1. Alysha Maulidina - Code Implementation
-2. [Kimberly Mazel](https://github.com/kimberlymazel) - Documentation
+1. Alysha Maulidina - Documentation
+2. [Kimberly Mazel](https://github.com/kimberlymazel) - Code development
 
 ## Features
 1. Interactive: use your mouse and keyboard to see the particles move and interact with one another
