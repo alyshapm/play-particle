@@ -114,7 +114,6 @@ class container(obstacle):
 			p.x += p.r - p.x + self.x0
 			p.xv = -p.xv * E
 
-
 class piston(obstacle):
 	updatable = True
 	def __init__(self, x, y, l, m, tag = None, axis = 1):
@@ -212,7 +211,7 @@ class pool:
 			total_speed += p.speed
 		try:
 			average_speed = total_speed / len(self.particles)
-			return average_speed ** 2
+			return round(average_speed ** 2, 1)
 		except ZeroDivisionError:
 			print("Pool is empty, pressure cannot be calculated.")
 			return 0
