@@ -216,7 +216,7 @@ class pool:
 			print("Pool is empty, pressure cannot be calculated.")
 			return 0
 
-	def getmediantemp(self):
+	def temperature(self):
 		t = 0
 		for p in self.particles:
 			t += p.speed

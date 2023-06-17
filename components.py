@@ -12,9 +12,9 @@ class obstacle:
 		pass
 
 class slider:
-	def __init__(self, x, y, range, lenght, size):
-		self.x0 = x - lenght / 2
-		self.x1 = x + lenght / 2
+	def __init__(self, x, y, range, length, size):
+		self.x0 = x - length / 2
+		self.x1 = x + length / 2
 		self.y = y
 		self.x = self.x0
 		self.value = 0

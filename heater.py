@@ -11,7 +11,7 @@ pool.setdomain(((-300, 500), (300, -500)))
 pool.random(60, 1, 15, rect = ((-200, 300), (200, -500)))
 
 # Creating slider
-slider = cmp.slider(500,0,(0,100),200, 20)
+slider = cmp.slider(650,0,(0,100),200, 20)
 
 # Adding heatplate to pool
 pool.add(cmp.heatplate(slider,'x',  0, -500, 600))
@@ -42,5 +42,15 @@ while True:
 
 	slider.update(gui.truemouse(pygame.mouse.get_pos()), click)
 	gui.drawwidgets(slider)
+
+	title = pygame.font.Font(None, 80)
+	header = pygame.font.Font(None, 50)
+	text = pygame.font.Font(None, 36)
+
+	gui.draw_text("Temperature", title, (13, 59, 102), (350, 510))
+	gui.draw_text("Simulator", title, (13, 59, 102), (350, 560))
+
+	gui.draw_text("Move the slider to", header, (238, 150, 75), (1600, 400))
+	gui.draw_text("change the temperature", header, (238, 150, 75), (1600, 440))
 
 	gui.update() # Updates screen

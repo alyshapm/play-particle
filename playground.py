@@ -90,7 +90,6 @@ while True:
     # Updates and renders all pools
     for p in pools:
         p.update()
-        print("pool temp: ", p.getmediantemp())   # Gets median 'temperature' (Velocity) of particles in pool
         set_gas_behavior(p)
         gui.drawpool(p)
 
