@@ -64,7 +64,9 @@ while True:
 	gui.draw_text("Chamber Pressure", title, (13, 59, 102), (350, 440))
 	gui.draw_text("Gas Simulator", title, (13, 59, 102), (350, 500))
 	gui.draw_text("Watch how the pressure changes", text, (249, 87, 56), (350, 600))
-	gui.draw_text("when the piston moves!", text, (249, 87, 56), (350, 640))
+	gui.draw_text("when the piston moves!", text, (249, 87, 56), (350, 630))
+
+	gui.draw_text("Press the escape key to exit", text, (120, 120, 120), (350, 1020))
 
 	gui.draw_text("Average Pressure:", text, (238, 150, 75), (1500, 520))
 	gui.draw_text(str(pressure), header, (249, 87, 56), (1500, 560))

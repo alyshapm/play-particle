@@ -3,6 +3,11 @@ from random import randint, uniform
 from numpy import sign
 import components as cmp
 
+# e = collision elasticity --> how much kinetic energy is conserved in a collision
+# g = gravity
+# n = num of particles 
+# v = maximum speed
+# r = radius
 
 class particle:
 	def __init__(self, pos, vel, r):

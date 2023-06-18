@@ -51,7 +51,7 @@ i = 0
 while True:
     i += 1
     pygame.time.Clock().tick(144)
-    buttons = gui.drawbuttons()
+    # buttons = gui.drawbuttons()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -66,31 +66,40 @@ while True:
 
             # Space Bar --> Merge boxes
             if event.key == pygame.K_SPACE:
-                pool.merge(pool2)
-                pool.setdomain(((-800, 400), (800, -400)))
-                pools.remove(pool2)
-                pool.e = 0.9
+                if pool2 in pools:
+                    pool.merge(pool2)
+                    pool.setdomain(((-800, 350), (800, -350)))
+                    pools.remove(pool2)
+                    pool.e = 0.9
 
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            for button in buttons:
-                if button.isOver(pygame.mouse.get_pos()):
-                    action = button.action
-                    print(f"{action} pressed")
-                    if action == 'CLEAR':
-                        pass
-                    elif action == 'RANDOM':
-                        pass
-                    elif action == 'ADD':
-                        pass
-                    elif action == 'REMOVE':
-                        pass
+        # elif event.type == pygame.MOUSEBUTTONDOWN:
+        #     for button in buttons:
+        #         if button.isOver(pygame.mouse.get_pos()):
+        #             action = button.action
+        #             print(f"{action} pressed")
+        #             if action == 'CLEAR':
+        #                 pass
+        #             elif action == 'RANDOM':
+        #                 pass
+        #             elif action == 'ADD':
+        #                 pass
+        #             elif action == 'REMOVE':
+        #                 pass
 
     store_mouse(gui.truemouse(pygame.mouse.get_pos()))
+
+    title = pygame.font.Font(None, 80)
+    header = pygame.font.Font(None, 50)
+    text = pygame.font.Font(None, 36)
 
     # Updates and renders all pools
     for p in pools:
         p.update()
         set_gas_behavior(p)
         gui.drawpool(p)
+
+    gui.draw_text("Playground", title, (13, 59, 102), (320, 150))
+    gui.draw_text("Move your cursor to interact with the particles!", text, (249, 87, 56), (1480, 160))
+    gui.draw_text("Press the escape key to exit", text, (120, 120, 120), (320, 1020))
 
     gui.update() # Updates screen

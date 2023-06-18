@@ -13,7 +13,7 @@ WHITE = 255,255,255
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
-pygame.display.set_caption('particles')
+pygame.display.set_caption('Play-Particle')
 
 screen.fill(WHITE)
 

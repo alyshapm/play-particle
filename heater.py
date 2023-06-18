@@ -50,6 +50,8 @@ while True:
 	gui.draw_text("Temperature", title, (13, 59, 102), (350, 510))
 	gui.draw_text("Simulator", title, (13, 59, 102), (350, 560))
 
+	gui.draw_text("Press the escape key to exit", text, (120, 120, 120), (350, 1020))
+
 	gui.draw_text("Move the slider to", header, (238, 150, 75), (1600, 400))
 	gui.draw_text("change the temperature", header, (238, 150, 75), (1600, 440))
 
