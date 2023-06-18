@@ -19,8 +19,8 @@ Play Particle demonstrates an interactive 2D particle simulation using the Pygam
 
 ## Controls
 1. `SPACE BAR` to merge the two containers
-2. `←` to go back a page
-3. `ESC` to exit the application
+2. `ESC` to go back a page
+3. `Exit` to exit the application
 
 ## Showcase
 ![image]()
