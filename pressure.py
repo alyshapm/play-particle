@@ -11,6 +11,12 @@ mouse_pos = {'x':0, 'y':0}
 draggable = prt.grabparticle(mouse_pos, 30)
 pool.add(draggable)
 
+length = abs(500 - (-200))  # Calculate the length of the pool
+width = abs(200 - (-500))   # Calculate the width of the pool
+depth = 10                  # Assuming the depth of the pool is 10 units
+
+volume = length * width * depth
+
 def store_mouse(pos):
 	mouse_pos['x'] = pos[0]
 	mouse_pos['y'] = pos[1]
@@ -55,6 +61,7 @@ while True:
 	pool.update()
 	gui.drawpool(pool)
 
+	# pressure = pool.pressure_accurate(pool.temperature(), volume)
 	pressure = pool.pressure()
 
 	title = pygame.font.Font(None, 80)

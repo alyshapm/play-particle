@@ -10,7 +10,7 @@ import components as cmp
 # r = radius
 
 class particle:
-	def __init__(self, pos, vel, r):
+	def __init__(self, pos, vel, r, mass=1):
 		self.x = pos[0]
 		self.y = pos[1]
 		self.xv = vel[0]
@@ -18,7 +18,7 @@ class particle:
 		self.r = r
 		self.color = (255,0,0)
 		self.container = None
-		self.m = 1
+		self.mass = mass
 
 	def update(self, G):
 		self.yv -= G
@@ -210,6 +210,32 @@ class pool:
 	def setdomain(self, rect):
 		self.cont = container(rect)
 	
+
+	# Uses PV = nRT
+	# P --> pressure of the gas,
+	# V --> volume of the gas chamber,
+	# n 0--> number of moles of gas particles,
+	# R --> ideal gas constant (Boltzmann)
+	# T --> temperature in Kelvin
+	# Number is not ideal, cannot represent pressure well as it is too small
+	def pressure_accurate(self, temperature, volume):
+		Boltzmann_constant = 1.38e-23  # Boltzmann constant in J/K
+
+		total_speed_squared = 0
+		for particle in self.particles:
+			total_speed_squared += particle.speed**2
+
+		average_speed_squared = total_speed_squared / len(self.particles)
+		kinetic_energy = (1 / 2) * average_speed_squared * particle.mass
+
+		number_of_particles = len(self.particles)
+		pressure = (number_of_particles * kinetic_energy) / (volume * Boltzmann_constant * temperature)
+
+		return pressure
+
+	# Focuses on  average speed of the gas particles
+	# Calculates the square of that speed --> approximation of pressure
+	# Not as accurate as it doesn't take in volume and temperature
 	def pressure(self):
 		total_speed = 0
 		for p in self.particles:
@@ -221,6 +247,21 @@ class pool:
 			print("Pool is empty, pressure cannot be calculated.")
 			return 0
 
+
+	def temperature_accurate(self):
+		Boltzmann_constant = 1.38e-23  # Boltzmann constant in J/K
+
+		total_speed_squared = 0
+		for particle in self.particles:
+			total_speed_squared += particle.speed**2
+
+		average_speed_squared = total_speed_squared / len(self.particles)
+		average_kinetic_energy = (1 / 2) * average_speed_squared * particle.mass
+
+		temperature = (2 * average_kinetic_energy) / (3 * Boltzmann_constant)
+
+		return temperature
+	
 	def temperature(self):
 		t = 0
 		for p in self.particles:
@@ -230,6 +271,7 @@ class pool:
 			return t
 		except ZeroDivisionError:
 			print("Pool is empty, cannot get temperature.")
+
 
 	def removeob(self, tag):
 		self.obstacles = [item for item in self.obstacles if item.tag != tag]
