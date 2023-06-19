@@ -11,11 +11,11 @@ mouse_pos = {'x':0, 'y':0}
 draggable = prt.grabparticle(mouse_pos, 30)
 pool.add(draggable)
 
-length = abs(500 - (-200))  # Calculate the length of the pool
-width = abs(200 - (-500))   # Calculate the width of the pool
-depth = 10                  # Assuming the depth of the pool is 10 units
+# length = abs(500 - (-200))  # Calculate the length of the pool
+# width = abs(200 - (-500))   # Calculate the width of the pool
+# depth = 10                  # Assuming the depth of the pool is 10 units
 
-volume = length * width * depth
+# volume = length * width * depth
 
 def store_mouse(pos):
 	mouse_pos['x'] = pos[0]
@@ -61,7 +61,7 @@ while True:
 	pool.update()
 	gui.drawpool(pool)
 
-	# pressure = pool.pressure_accurate(pool.temperature(), volume)
+	# pressure = pool.pressure_accurate(pool.temperature_accurate(), volume)
 	pressure = pool.pressure()
 
 	title = pygame.font.Font(None, 80)
@@ -75,8 +75,10 @@ while True:
 
 	gui.draw_text("Press the escape key to exit", text, (120, 120, 120), (350, 1020))
 
-	gui.draw_text("Average Pressure:", text, (238, 150, 75), (1500, 520))
+	gui.draw_text("Average Pressure*", text, (238, 150, 75), (1500, 520))
 	gui.draw_text(str(pressure), header, (249, 87, 56), (1500, 560))
 	gui.draw_bar(pressure)
+	gui.draw_text("*Approximate, not to scale", text, (150, 150, 150), (1560, 1020))
+
 
 	gui.update() # Updates screen

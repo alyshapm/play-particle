@@ -233,7 +233,7 @@ class pool:
 
 		return pressure
 
-	# Focuses on  average speed of the gas particles
+	# Focuses on average speed of the gas particles
 	# Calculates the square of that speed --> approximation of pressure
 	# Not as accurate as it doesn't take in volume and temperature
 	def pressure(self):
@@ -268,7 +268,7 @@ class pool:
 			t += p.speed
 		try:
 			t /= len(self.particles)
-			return t
+			return round(t, 1)
 		except ZeroDivisionError:
 			print("Pool is empty, cannot get temperature.")
 

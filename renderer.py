@@ -79,3 +79,15 @@ def draw_bar(value):
 	# Draw the bar
 	pygame.draw.rect(screen, (255, 0, 0), (bar_x, bar_y, bar_width, bar_height))
         
+def draw_gradient(rect, start_color, end_color):
+    """Draws a rectangle with a gradient effect."""
+    x, y, width, height = rect
+    for i in range(width):
+        # Calculate the color at each position along the width
+        r = int(start_color[0] + (end_color[0] - start_color[0]) * (i / width))
+        g = int(start_color[1] + (end_color[1] - start_color[1]) * (i / width))
+        b = int(start_color[2] + (end_color[2] - start_color[2]) * (i / width))
+        color = (r, g, b)
+        
+        # Draw a horizontal line of the calculated color
+        pygame.draw.line(screen, color, (x + i, y), (x + i, y + height))

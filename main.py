@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("Play Particle Menu")
 
 # Define button properties
-button_width = 300
+button_width = 500
 button_height = 80
 button_padding = 20
 
@@ -22,7 +22,7 @@ font = pygame.font.Font(None, 40)
 # Define buttons
 buttons = [
     {
-        "text": "Playground",
+        "text": "Brownian Playground",
         "path": "playground.py",
         "position": (WIDTH / 2, HEIGHT / 2 - button_height - button_padding)
     },
