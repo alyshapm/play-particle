@@ -20,6 +20,7 @@ class particle:
 		self.container = None
 		self.mass = mass
 
+	# Update particles 
 	def update(self, G):
 		self.yv -= G
 		self.x += self.xv
@@ -83,17 +84,18 @@ def clamp(n, min, max):
 	else:
 		return min
 
-def mixrgb(fac, rgb1, rgb2):
-	return tuple([c2*fac + c1*(1-fac) for c1, c2 in zip(rgb1, rgb2)])
+# Get RGB colours for the particle colours
+def getrgb(factor, color_1, color_2):
+	return tuple([c2*factor + c1*(1-factor) for c1, c2 in zip(color_1, color_2)])
 
+# Get colours based on the speed
 def getcolor(speed):
-	return mixrgb(clamp(speed/15, 0, 1), (0,0,255), (255,0,0))
+	return getrgb(clamp(speed/15, 0, 1), (0,0,255), (255,0,0))
 
 class obstacle:
 	color = (0,0,0)
 	updatable = False
 	e = 1
-	tag = None
 	def collide(self, p, E):
 		pass
 
@@ -121,10 +123,9 @@ class container(obstacle):
 
 class piston(obstacle):
 	updatable = True
-	def __init__(self, x, y, l, m, tag = None, axis = 1):
-		self.tag = tag
+	def __init__(self, x, y, l, mass, axis = 1):
 		self.v = 0
-		self.m = m
+		self.mass = mass
 		if axis == 1 or axis == 'x':
 			self.axis = 1
 			self.y = y
@@ -138,16 +139,16 @@ class piston(obstacle):
 			self.y0 = y - l/2
 			self.y1 = y + l/2
 		else:
-			print("invalid axis")
+			print("Invalid Axis")
 
-	def update(self, g):
+	def update(self, gravity):
 		if self.axis == 1:
-			self.v -= g
+			self.v -= gravity
 			self.y += self.v
 		else:
 			self.y += self.v
 
-	def changelen(self, l):
+	def change_length(self, l):
 		if self.axis == 1:
 			self.x0 = self.x_ - l/2
 			self.x1 = self.x_ + l/2
@@ -161,23 +162,22 @@ class piston(obstacle):
 			if self.x0 < p.x < self.x1 and intersect < 0:
 				p.y += intersect
 				dv = (self.v - p.yv) *2 
-				self.v -= dv / (1 + self.m)
-				p.yv += (dv * self.m) / (1 + self.m)
+				self.v -= dv / (1 + self.mass)
+				p.yv += (dv * self.mass) / (1 + self.mass)
 
 		else:
 			intersect = abs(p.x - self.x) - p.r
 			if self.y0 < p.y < self.y1 and intersect < 0:
 				p.x += intersect * sign(p.xv)
-				p.xv = - p.xv * E * self.e
+				p.xv = - p.xv * E * self.elasticity
 
 class pool:
-
-	def __init__(self, e = 1, g = 0, *particles):
+	def __init__(self, elasticity = 1, gravity = 0, *particles):
 		self.particles = []
 		self.obstacles = []
 		self.updatables = []
 		self.cont = container(((-10000,10000), (10000,-10000)))
-		self.e, self.g = e, g
+		self.elasticity, self.gravity = elasticity, gravity
 		for p in particles:
 			self.add(p)
 
@@ -196,16 +196,16 @@ class pool:
 		self.updatables += pool2.updatables
 
 	def update(self):
-		e = self.e *.5 + .5
+		elasticity = self.elasticity *.5 + .5
 		for body in self.updatables:
-			body.update(self.g)
+			body.update(self.gravity)
 		for i, p in enumerate(self.particles):
 			for p2 in self.particles[i+1:]:
-				p.collide(p2, e)
+				p.collide(p2, elasticity)
 
 			for b in self.obstacles:
-				b.collide(p, e)
-			self.cont.collide(p, e)
+				b.collide(p, elasticity)
+			self.cont.collide(p, elasticity)
 
 	def setdomain(self, rect):
 		self.cont = container(rect)
@@ -248,6 +248,8 @@ class pool:
 			return 0
 
 
+	# More accurate temperature recording
+	# Uses Boltzmann constant
 	def temperature_accurate(self):
 		Boltzmann_constant = 1.38e-23  # Boltzmann constant in J/K
 
@@ -262,6 +264,8 @@ class pool:
 
 		return temperature
 	
+	# Get temperature in chamber
+	# Not as accurate but easier to digest
 	def temperature(self):
 		t = 0
 		for p in self.particles:
@@ -272,11 +276,7 @@ class pool:
 		except ZeroDivisionError:
 			print("Pool is empty, cannot get temperature.")
 
-
-	def removeob(self, tag):
-		self.obstacles = [item for item in self.obstacles if item.tag != tag]
-		self.updatables = [item for item in self.updatables if item.tag != tag]
-
+	# Generate random particles in the pool
 	def random(self, n, v, r, rect = None):
 		if rect is None:
 			rect = self.cont.rect
@@ -285,12 +285,13 @@ class pool:
 			p = particle((randint(rect[0][0], rect[1][0]), randint(rect[1][1], rect[0][1])), (uniform(-v, v), uniform(-v, v)), r)
 			self.add(p)
 
-def mergepools(*pools, e = False, g = False):
-	if not e:
-		e = pools[0].e
-	if not g:
-		g = pools[0].g
-	newpool = pool(e = e, g = g)
+# Merge the pools into one
+def mergepools(*pools, elasticity = False, gravity = False):
+	if not elasticity:
+		elasticity = pools[0].elasticity
+	if not gravity:
+		gravity = pools[0].gravity
+	newpool = pool(elasticity = elasticity, gravity = gravity)
 	for p in pools:
 		newpool.particles += p.particles
 		newpool.obstacles += p.obstacles

@@ -6,7 +6,7 @@ import sys
 
 
 # Creates first pool object
-pool = prt.pool(e = .9, g = .05)
+pool = prt.pool(elasticity = .9, gravity = .05)
 pool.setdomain(((-300, 500), (300, -500)))
 pool.random(60, 1, 15, rect = ((-200, 300), (200, -500)))
 

@@ -24,11 +24,11 @@ def set_liquid_behavior(pool):
 		p.yv = -1  # Example: Assign a constant downward velocity
 
 # Creates first pool object
-pool = prt.pool(e=0.99, g=0.01)
+pool = prt.pool(elasticity=0.99, gravity=0.01)
 pool.setdomain(((400, 200), (800, -200)))
 
 # Creates second pool object
-pool2 = prt.pool(e=1, g=0.001)
+pool2 = prt.pool(elasticity=1, gravity=0.001)
 pool2.setdomain(((-800, 200), (-400, -200)))
 
 # Mouse
@@ -37,8 +37,8 @@ draggable = prt.grabparticle(mouse_pos, 30)
 pool.add(draggable)
 
 # Initializes particles randomly
-pool.random(60, 1, 15)
-pool2.random(60, 20, 15)
+pool.random(65, 5, 15)
+pool2.random(65, 20, 15)
 
 # Needed for draggable particle
 def store_mouse(pos):
@@ -70,7 +70,7 @@ while True:
 					pool.merge(pool2)
 					pool.setdomain(((-800, 350), (800, -350)))
 					pools.remove(pool2)
-					pool.e = 0.9
+					pool.elasticity = 0.9
 
 		# elif event.type == pygame.MOUSEBUTTONDOWN:
 		#     for button in buttons:

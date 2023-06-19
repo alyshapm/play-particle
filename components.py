@@ -7,7 +7,6 @@ class obstacle:
 	color = (0,0,0)
 	updatable = False
 	e = 1
-	tag = None
 	def collide(self, p, E):
 		pass
 
@@ -40,8 +39,7 @@ class slider:
 			self.color = (100,100,100)
 
 class barrier(obstacle):
-	def __init__(self, axis, x, y, l, tag = None):
-		self.tag = tag
+	def __init__(self, axis, x, y, l):
 		if axis == 1 or axis == 'x':
 			self.axis = 1
 			self.y = y
@@ -55,7 +53,7 @@ class barrier(obstacle):
 			self.y0 = y - l/2
 			self.y1 = y + l/2
 		else:
-			print("invalid axis")
+			print("Invalid Axis")
 
 	def changelen(self, l):
 		if self.axis == 1:
@@ -79,8 +77,8 @@ class barrier(obstacle):
 
 class heatplate(barrier):
 	updatable = True
-	def __init__(self, widget, axis, x, y, l, tag = None):
-		super(heatplate, self).__init__(axis, x, y, l, tag)
+	def __init__(self, widget, axis, x, y, l):
+		super(heatplate, self).__init__(axis, x, y, l)
 		self.widget = widget
 		self.e = 1
 		self.color = (0,0,0)

@@ -4,7 +4,7 @@ import pygame
 import sys
 
 # Creates first pool object
-pool = prt.pool(e = 1, g = .05)
+pool = prt.pool(elasticity = 1, gravity = .05)
 pool.setdomain(((-200, 500), (200, -500)))
 
 mouse_pos = {'x':0, 'y':0}
@@ -21,7 +21,7 @@ def store_mouse(pos):
 	mouse_pos['x'] = pos[0]
 	mouse_pos['y'] = pos[1]
 
-piston = prt.piston(0, 500, 500, 400, 100)
+piston = prt.piston(0, 500, 500, 400)
 pool.add(piston)
 pool.random(100, 1, 15, rect = ((-200, 300), (200, -500)))
 
