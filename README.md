@@ -39,4 +39,4 @@ pip inatall pygame numpy sys
 
 ## Acknowledgements
 
-This project was inspired by franconepippone's [project]([https://github.com/franconepippone/simple-gas-sim]) and references certain parts of the code.
+This project was inspired by franconepippone's [project](https://github.com/franconepippone/simple-gas-sim) and references certain parts of the code.
