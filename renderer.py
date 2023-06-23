@@ -27,18 +27,26 @@ def update(background = WHITE):
     pygame.display.update()
     screen.fill(background)
 
-def drawpool(pool):
-    for p in pool.particles:
+def drawchamber(chamber):
+    for p in chamber.particles:
         pygame.draw.circle(screen, p.color, (int(p.x) + OFFW, -int(p.y) + OFFH), int(p.r))
 
-    for b in pool.obstacles:
+    for b in chamber.obstacles:
         if type(b) == cmp.heatplate or type(b) == prt.piston:
             if b.axis == 1:
-                pygame.draw.line(screen, b.color, (int(b.x0) + OFFW, -int(b.y) + OFFH), (int(b.x1) + OFFW, -int(b.y) + OFFH), 15)
+                pygame.draw.line(screen, 
+                    b.color, 
+                    (int(b.x0) + OFFW, -int(b.y) + OFFH), 
+                    (int(b.x1) + OFFW, -int(b.y) + OFFH),
+                    15)
             elif b.axis == 0:
-                pygame.draw.line(screen, b.color, (int(b.x) + OFFW, -int(b.y0) + OFFH), (int(b.x) + OFFW, -int(b.y1) + OFFH), 4)
+                pygame.draw.line(screen, 
+                    b.color,
+                    (int(b.x) + OFFW, -int(b.y0) + OFFH),
+                    (int(b.x) + OFFW, -int(b.y1) + OFFH), 
+                    4)
 
-    pygame.draw.rect(screen, pool.cont.color, offsetrect(pool.cont, OFFW, OFFH), 2)
+    pygame.draw.rect(screen, chamber.cont.color, offsetrect(chamber.cont, OFFW, OFFH), 2)
 
 def offsetrect(rect, dx, dy):
     return (rect.x0 + dx, -rect.y0 + dy), (rect.x1 - rect.x0, -rect.y1 + rect.y0)

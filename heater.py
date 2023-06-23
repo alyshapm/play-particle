@@ -5,16 +5,16 @@ import pygame
 import sys
 
 
-# Creates first pool object
-pool = prt.pool(elasticity = .9, gravity = .05)
-pool.setdomain(((-300, 500), (300, -500)))
-pool.random(60, 1, 15, rect = ((-200, 300), (200, -500)))
+# Creates first chamber object
+chamber = prt.chamber(elasticity = .9, gravity = .05)
+chamber.setdomain(((-300, 500), (300, -500)))
+chamber.random(60, 1, 15, rect = ((-200, 300), (200, -500)))
 
 # Creating slider
 slider = cmp.slider(650,0,(0,100),200, 20)
 
-# Adding heatplate to pool
-pool.add(cmp.heatplate(slider,'x',  0, -500, 600))
+# Adding heatplate to chamber
+chamber.add(cmp.heatplate(slider,'x',  0, -500, 600))
 
 click = False
 i = 0
@@ -37,8 +37,8 @@ while True:
 			if event.button == 1:
 				click = False
 
-	pool.update()
-	gui.drawpool(pool)
+	chamber.update()
+	gui.drawchamber(chamber)
 
 	slider.update(gui.truemouse(pygame.mouse.get_pos()), click)
 	gui.drawwidgets(slider)
@@ -47,7 +47,7 @@ while True:
 	header = pygame.font.Font(None, 50)
 	text = pygame.font.Font(None, 36)
 
-	temperature = pool.temperature()
+	temperature = chamber.temperature()
 
 	gui.draw_text("Temperature", title, (13, 59, 102), (350, 510))
 	gui.draw_text("Simulator", title, (13, 59, 102), (350, 560))

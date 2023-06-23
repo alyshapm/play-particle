@@ -23,8 +23,7 @@ Play Particle demonstrates an interactive 2D particle simulation using the Pygam
 3. `Exit` to exit the application
 
 ## Showcase
-![image]()
-![demo gif]()
+![display](resources/display.gif)
 
 
 ## Getting started
@@ -37,3 +36,7 @@ git clone https://github.com/alyshapm/play-particle
 pip inatall pygame numpy sys
 ```
 2. Run and happy experimenting!
+
+## Acknowledgements
+
+This project was inspired by franconepippone's [project]([https://github.com/franconepippone/simple-gas-sim]) and references certain parts of the code.

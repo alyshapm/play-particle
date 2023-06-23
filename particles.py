@@ -171,7 +171,7 @@ class piston(obstacle):
 				p.x += intersect * sign(p.xv)
 				p.xv = - p.xv * E * self.elasticity
 
-class pool:
+class chamber:
 	def __init__(self, elasticity = 1, gravity = 0, *particles):
 		self.particles = []
 		self.obstacles = []
@@ -190,10 +190,10 @@ class pool:
 			self.particles.append(body)
 			self.updatables.append(body)
 
-	def merge(self, pool2):
-		self.particles += pool2.particles
-		self.obstacles += pool2.obstacles
-		self.updatables += pool2.updatables
+	def merge(self, chamber2):
+		self.particles += chamber2.particles
+		self.obstacles += chamber2.obstacles
+		self.updatables += chamber2.updatables
 
 	def update(self):
 		elasticity = self.elasticity *.5 + .5
@@ -244,7 +244,7 @@ class pool:
 			average_speed = total_speed / len(self.particles)
 			return round(average_speed ** 2, 1)
 		except ZeroDivisionError:
-			print("Pool is empty, pressure cannot be calculated.")
+			print("Chamber is empty, pressure cannot be calculated.")
 			return 0
 
 
@@ -274,9 +274,9 @@ class pool:
 			t /= len(self.particles)
 			return round(t, 1)
 		except ZeroDivisionError:
-			print("Pool is empty, cannot get temperature.")
+			print("Chamber is empty, cannot get temperature.")
 
-	# Generate random particles in the pool
+	# Generate random particles in the chamber
 	def random(self, n, v, r, rect = None):
 		if rect is None:
 			rect = self.cont.rect
@@ -285,15 +285,15 @@ class pool:
 			p = particle((randint(rect[0][0], rect[1][0]), randint(rect[1][1], rect[0][1])), (uniform(-v, v), uniform(-v, v)), r)
 			self.add(p)
 
-# Merge the pools into one
-def mergepools(*pools, elasticity = False, gravity = False):
+# Merge the chambers into one
+def mergechambers(*chambers, elasticity = False, gravity = False):
 	if not elasticity:
-		elasticity = pools[0].elasticity
+		elasticity = chambers[0].elasticity
 	if not gravity:
-		gravity = pools[0].gravity
-	newpool = pool(elasticity = elasticity, gravity = gravity)
-	for p in pools:
-		newpool.particles += p.particles
-		newpool.obstacles += p.obstacles
-		newpool.updatables += p.updatables
-	return newpool
+		gravity = chambers[0].gravity
+	newchamber = chamber(elasticity = elasticity, gravity = gravity)
+	for p in chambers:
+		newchamber.particles += p.particles
+		newchamber.obstacles += p.obstacles
+		newchamber.updatables += p.updatables
+	return newchamber
