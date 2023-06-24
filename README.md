@@ -1,9 +1,11 @@
 <h1 align="center">Play Particle</h1>
 
+![display](showcase.gif)
+
 ## Project description
 
-[![report](https://img.shields.io/static/v1.svg?label=documentation&message=Report&logo=microsoft-word&color=bluel)](https://binusianorg-my.sharepoint.com/personal/kimberly_mazel_binus_ac_id/_layouts/15/guestaccess.aspx?docid=0733469a87b264bd8bba28f95f37329dc&authkey=AQZeiY8xSWNUVGelE0nvddg&e=FqUX43)
-[![PPT](https://img.shields.io/static/v1.svg?label=Project&message=PPT&logo=microsoft-powerpoint&color=blue)](https://binusianorg-my.sharepoint.com/personal/kimberly_mazel_binus_ac_id/_layouts/15/guestaccess.aspx?docid=0b1e45d3f25fd4dd58f6c4b6bfa53b2fd&authkey=Abow1YWPzJb5utTrTJcjOTA&e=M5zIJl)
+[![report](https://img.shields.io/static/v1.svg?label=documentation&message=Report&logo=microsoft-word&color=bluel)](https://drive.google.com/file/d/1FKOxowEhPYDgKZGy9jB6IOgJotQ1MKr9/view?usp=sharing)
+[![PPT](https://img.shields.io/static/v1.svg?label=Project&message=PPT&logo=microsoft-powerpoint&color=blue)](https://drive.google.com/file/d/1zta9afFmtgDWi_BGRvd_Ro_f0VnNYJmS/view?usp=sharing)
 
 Play Particle demonstrates an interactive 2D particle simulation using the Pygame library based on the kinetic-molecular theory. The particles can move and interact with each other, exhibiting behaviors such as bouncing off boundaries and colliding with one another. The user can observe and interact with the simulation by moving the draggable particle and witnessing the resulting effects on the system.
 
@@ -21,10 +23,6 @@ Play Particle demonstrates an interactive 2D particle simulation using the Pygam
 1. `SPACE BAR` to merge the two containers
 2. `ESC` to go back a page
 3. `Exit` to exit the application
-
-## Showcase
-![display](resources/display.gif)
-
 
 ## Getting started
 1. Clone this repo.
